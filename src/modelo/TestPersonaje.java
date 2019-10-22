@@ -69,17 +69,17 @@ public class TestPersonaje {
         File file = new File(ruta);
         Scanner teclado = new Scanner(System.in);
         System.out.println("nombre a buscar");
-        String nom = teclado.nextLine();
+        String nombre = teclado.nextLine();
         File[] listaDirectorios = file.listFiles();
         for (File directorio : listaDirectorios) {
             if (directorio.isDirectory()) {
                 file = new File(recuperarPersonaje(directorio.getCanonicalPath()).getCanonicalPath());
-                if (file.getName().contains(nom)) {
+                if (file.getName().contains(nombre)) {
                     return file;
                 }
 
             } else {
-                if (directorio.getName().contains(nom)) {
+                if (directorio.getName().contains(nombre)) {
                     file = new File(directorio.getCanonicalPath());
                 }
             }
@@ -88,22 +88,48 @@ public class TestPersonaje {
     }
     
     public TestPersonaje leerPersonaje(String ruta){
-        String nom;
+        String nombre;
         int dinero;
         TestPersonaje tp = null;
         try {
             File f = recuperarPersonaje(ruta);
             RandomAccessFile raf = new RandomAccessFile(f, "rw");
             raf.seek(0);
-            nom = raf.readUTF();
+            nombre = raf.readUTF();
             raf.seek(1);
             dinero = raf.readInt();
-            tp = new TestPersonaje(nom, dinero);
+            tp = new TestPersonaje(nombre, dinero);
         } catch (IOException ex) {
             System.err.println(ex.toString());
         }
         return tp;
     }
+    
+    /*
+    public void leer(String ruta) throws IOException {
+        File file = new File(ruta);
+        Scanner teclado = new Scanner(System.in);
+        System.out.println("nombre a buscar");
+        String nom = teclado.nextLine();
+        File[] listaDirectorios = file.listFiles();
+        RandomAccessFile raf = new RandomAccessFile(file, "rw");
+        for (File directorio : listaDirectorios) {
+            if (directorio.isDirectory()) {
+                file = new File(recuperarPersonaje(directorio.getCanonicalPath()).getCanonicalPath());
+                if (file.getName().contains(nom)) {
+                    raf.seek(0);
+                    System.out.println(raf.readUTF());
+                }
+
+            } else {
+                if (directorio.getName().contains(nom)) {
+                    raf.seek(0);
+                    System.out.println(raf.readUTF());
+                }
+            }
+        }
+    }
+*/
 }
 
 
